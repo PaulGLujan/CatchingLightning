@@ -1,0 +1,10 @@
+@startuml
+class Led {
+  -pin
+  -init()
+  +Led(pin)
+  +on()
+  +off()
+}
+
+@enduml

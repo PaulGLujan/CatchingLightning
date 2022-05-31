@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
     "programmer": "arduino:avrisp",
-    "sketch": "Blink.ino",
+    "sketch": "Main.ino",
     "port": "/dev/tty.usbmodem14301"
 }
