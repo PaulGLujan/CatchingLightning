@@ -9,3 +9,6 @@ void Led::init() {
 }
 void Led::on() { digitalWrite(pin, HIGH); }
 void Led::off() { digitalWrite(pin, LOW); }
+bool Led::isOn() { 
+  return digitalRead(pin) == HIGH;
+}

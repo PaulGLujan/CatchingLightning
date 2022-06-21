@@ -7,4 +7,13 @@ class Led {
   +off()
 }
 
+class MillisDelay {
+  -ms_delay
+  -startTime
+  +MillisDelay()
+  +start(delay)
+  +justFinished()
+  +repeat()
+}
+
 @enduml
