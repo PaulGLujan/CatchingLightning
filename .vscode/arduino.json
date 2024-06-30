@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
     "programmer": "arduino:avrisp",
-    "sketch": "Main.ino",
+    "sketch": "catch-lightning.ino",
     "port": "/dev/tty.usbmodem14301"
 }
