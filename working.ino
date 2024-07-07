@@ -1,3 +1,4 @@
+#include <Arduino.h>
 /*
   Catch the Lightning
 
@@ -17,17 +18,19 @@ const int startPin = 2;
 const int BUTTON_PIN = 12;
 const int ledQuantity = 6;
 long interval = 100;
-const int specialPin = startPin + ledQuantity - 1;  // The last light pin
+const int specialPin = startPin + ledQuantity - 1; // The last light pin
 
 unsigned long previousMillis = 0;
 int currentPin = startPin;
 bool isCaptured = false;
 
-void setup() {
+void setup()
+{
   Serial.begin(9600);
 
   // Iterate through the light pins and assign each pin as output
-  for (int thisPin = startPin; thisPin < startPin + ledQuantity; thisPin++) {
+  for (int thisPin = startPin; thisPin < startPin + ledQuantity; thisPin++)
+  {
     pinMode(thisPin, OUTPUT);
   }
 
@@ -43,15 +46,16 @@ void loop()
     return;
   }
 
-  if (isPinSelected(BUTTON_PIN, specialPin))
-  {
-    isCaptured = true;
-    return;
-  }
-
   if (isCaptured && isButtonPressed(BUTTON_PIN))
   {
     isCaptured = false;
+    return;
+  }
+
+  if (isPinSelected(BUTTON_PIN, specialPin))
+  {
+    Serial.println("log2");
+    isCaptured = true;
     return;
   }
 
@@ -79,40 +83,50 @@ bool isButtonPressed(int buttonPin)
   return false;
 }
 
-bool isIntervalComplete(unsigned long previousMillis, int interval) {
+bool isIntervalComplete(unsigned long previousMillis, int interval)
+{
   unsigned long currentMillis = millis();
 
-  if (currentMillis - previousMillis >= interval) {
+  if (currentMillis - previousMillis >= interval)
+  {
     return true;
   }
   return false;
 }
 
-bool isButtonDebounceOn() {
+bool isButtonDebounceOn()
+{
   // TO DO
 }
 
-int getNextPin(int num, int start, int quantity) {
+int getNextPin(int num, int start, int quantity)
+{
   // If it's the last pin return the first
-  if (num == (start + quantity - 1)) {
+  if (num == (start + quantity - 1))
+  {
     return start;
   }
 
   return num + 1;
 }
 
-bool isPinSelected(int buttonPin, int ledPin) {
+bool isPinSelected(int buttonPin, int ledPin)
+{
   bool isButtonPressed = false;
   bool sensorVal = digitalRead(buttonPin);
-  if (sensorVal == LOW) {
+  if (sensorVal == LOW)
+  {
     isButtonPressed = true;
   }
 
   bool isPinOn = digitalRead(ledPin);
 
-  if (isButtonPressed && isPinOn) {
+  if (isButtonPressed && isPinOn)
+  {
     return true;
-  } else {
+  }
+  else
+  {
     return false;
   }
 }
