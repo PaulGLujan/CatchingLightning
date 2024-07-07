@@ -14,6 +14,7 @@
 */
 
 const int startPin = 2;
+const int BUTTON_PIN = 12;
 const int ledQuantity = 6;
 long interval = 100;
 const int specialPin = startPin + ledQuantity - 1;  // The last light pin
@@ -35,31 +36,47 @@ void setup() {
   digitalWrite(13, LOW);
 }
 
-void loop() {
-  if (isIntervalComplete(previousMillis, interval)) {
+void loop()
+{
+  if (isCaptured && !isButtonPressed(BUTTON_PIN))
+  {
+    return;
+  }
+
+  if (isPinSelected(BUTTON_PIN, specialPin))
+  {
+    isCaptured = true;
+    return;
+  }
+
+  if (isCaptured && isButtonPressed(BUTTON_PIN))
+  {
+    isCaptured = false;
+    return;
+  }
+
+  if (isIntervalComplete(previousMillis, interval))
+  {
     // Reset current interval
     unsigned long currentMillis = millis();
     previousMillis = currentMillis;
 
-    if (!isCaptured) {
-      // Turn off current pin and turn on next
-      int nextPin = getNextPin(currentPin, startPin, ledQuantity);
-      digitalWrite(currentPin, LOW);
-      digitalWrite(nextPin, HIGH);
-      currentPin = nextPin;
-    }
+    // Turn off current pin and turn on next
+    int nextPin = getNextPin(currentPin, startPin, ledQuantity);
+    digitalWrite(currentPin, LOW);
+    digitalWrite(nextPin, HIGH);
+    currentPin = nextPin;
   }
+}
 
-  if (isPinSelected(12, specialPin)) {
-    isCaptured = true;
+bool isButtonPressed(int buttonPin)
+{
+  bool sensorVal = digitalRead(buttonPin);
+  if (sensorVal == LOW)
+  {
+    return true;
   }
-
-  if (isCaptured) {
-    bool sensorVal = digitalRead(12);
-    if (sensorVal == LOW) {
-      isCaptured = false;
-    }
-  }
+  return false;
 }
 
 bool isIntervalComplete(unsigned long previousMillis, int interval) {
